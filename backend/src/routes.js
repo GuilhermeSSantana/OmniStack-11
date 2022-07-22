@@ -1,17 +1,28 @@
 const express =  require('express');
 
+const OngController = require('./controllers/OngController')
+const IncidentController = require('./controllers/IncidentController')
+const ProfileController = require('./controllers/ProfileController');
+const SessionController = require('./controllers/SessionController');
+
+
+const connection =  require('./database/connection');
+
 const routes = express.Router();
 
-routes.post('/users', (request, response) => {
-    const body = request.body;
+    //Cadastro de ong e listagem//
+routes.get('/ongs', OngController.index);
+routes.post('/ongs', OngController.create);
 
-    console.log(body);
+    //Cadastro de pedidos e com valor $ e exclusão//
+routes.post('/incidents', IncidentController.create);
+routes.get('/incidents', IncidentController.index);
+routes.delete('/incidents/:id', IncidentController.delete)
+    
+    //Lista de incidentes com valores $ //
+routes.get('/profile', ProfileController.index);
 
-    return response.json({
-        evento: 'Semana OmniStack',
-        aluno: 'zikinha00'
-    })
-
-});
+    //Autentificação se usuario esta cadastrado//
+routes.post('/sessions', SessionController.create);
 
 module.exports = routes;
